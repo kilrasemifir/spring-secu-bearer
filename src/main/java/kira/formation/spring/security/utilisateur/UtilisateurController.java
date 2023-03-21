@@ -1,6 +1,7 @@
 package kira.formation.spring.security.utilisateur;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class UtilisateurController {
         return service.findAll();
     }
 
+    @Secured("ADMIN")
     @DeleteMapping("{id}")
     public void deleteById(@PathVariable Long aLong) {
         service.deleteById(aLong);

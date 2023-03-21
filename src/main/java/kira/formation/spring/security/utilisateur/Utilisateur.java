@@ -1,13 +1,15 @@
 package kira.formation.spring.security.utilisateur;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import kira.formation.spring.security.auth.roles.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -23,5 +25,7 @@ public class Utilisateur {
     private String username;
     private String password;
 
+    @ManyToMany
+    private List<Role> roles = new ArrayList<>();
     // autres props
 }
