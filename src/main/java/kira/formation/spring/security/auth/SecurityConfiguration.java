@@ -9,12 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfiguration {
-
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -35,11 +33,17 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain configure(HttpSecurity http, DaoAuthenticationProvider provider) throws Exception {
+    public SecurityFilterChain configure(
+            HttpSecurity http,
+            DaoAuthenticationProvider provider,
+            JwtFilter filter) throws Exception {
         http.csrf().disable() // Désactive la sécurité CSRF
                 .authorizeHttpRequests()
-                .anyRequest().permitAll();
+                        .requestMatchers("/auth/login", "/auth/register").permitAll()
+                        .anyRequest().authenticated();
+
         http.authenticationProvider(provider);
+        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

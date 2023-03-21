@@ -1,6 +1,7 @@
 package kira.formation.spring.security.utilisateur;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class UtilisateurController {
 
     @GetMapping()
     public Iterable<Utilisateur> findAll() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return service.findAll();
     }
 

@@ -16,10 +16,14 @@ public class JwtTokenUtil {
     public String generateToken(String username, Map<String, Object> claims){
         Key key = Keys.hmacShaKeyFor(secret.getBytes());
         return Jwts.builder()
-                .setSubject(username)
                 .setClaims(claims)
+                .setSubject(username)
                 .signWith(key)
                 .compact();
+    }
+
+    public String getUsernameFromToken(String token){
+        return getAllClaimsFromToken(token).getSubject();
     }
 
     public Claims getAllClaimsFromToken(String token){
